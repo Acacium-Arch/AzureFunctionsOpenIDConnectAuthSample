@@ -21,6 +21,15 @@
         public string Audience { get; set; }
 
         /// <summary>
+        /// The path extension to the JWKS endpoint. Best practice uses .well-known/openid-configuration,
+        /// however, we also need to cater for custom endpoints hence this is in config.
+        /// </summary>
+        /// <remarks>
+        /// The "JWKS" is the endpoint used to validate the incoming Authorization token.
+        /// </remarks>
+        public string ValidationPath { get; set; }
+
+        /// <summary>
         /// The URL of the Open ID Connect provider (issuer) that will perform API authorization.
         /// </summary>
         /// <remarks>
@@ -37,14 +46,16 @@
             }
             set
             {
-                if (!string.IsNullOrWhiteSpace(value) && !value.EndsWith("/"))
+                _issuerUrl = value;
+
+                /*if (!string.IsNullOrWhiteSpace(value) && !value.EndsWith("/"))
                 {
                     _issuerUrl = value + "/";
                 }
                 else
                 {
                     _issuerUrl = value;
-                }
+                }*/
             }
         }
     }

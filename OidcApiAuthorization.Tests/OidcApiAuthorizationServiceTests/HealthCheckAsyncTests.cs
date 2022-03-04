@@ -47,12 +47,13 @@ namespace OidcApiAuthorizationServiceTests
         }
 
         [Theory]
-        [InlineData(null, null)]
-        [InlineData("", "")]
-        [InlineData(" ", " ")] // Spaces.
-        [InlineData("someAudience", null)]
-        [InlineData(null, "https://issuerUrl.for.test/")]
-        public async void Returns_error_if_missing_settings_values(string Audience, string issuerUrl)
+        [InlineData(null, null, null)]
+        [InlineData("", "", "")]
+        [InlineData(" ", " ", " ")] // Spaces.
+        [InlineData("someAudience", null, null)]
+        [InlineData(null, "https://issuerUrl.for.test/", null)]
+        [InlineData(null, null, ".well-known/jwks.json")]
+        public async void Returns_error_if_missing_settings_values(string Audience, string issuerUrl, string validationPath)
         {
             var fakeApiAuthorizationSettingsOptions
                 = new FakeOptions<OidcApiAuthorizationSettings>()
@@ -60,6 +61,7 @@ namespace OidcApiAuthorizationServiceTests
                     Value = new OidcApiAuthorizationSettings()
                     {
                         Audience = Audience,
+                        ValidationPath = validationPath,
                         IssuerUrl = issuerUrl
                     }
                 };
@@ -85,6 +87,7 @@ namespace OidcApiAuthorizationServiceTests
                     Value = new OidcApiAuthorizationSettings()
                     {
                         Audience = "AudienceForTest",
+                        ValidationPath = ".well-known/jwks.json",
                         IssuerUrl = "https://issuerUrl.for.test/"
                     }
                 };
@@ -117,6 +120,7 @@ namespace OidcApiAuthorizationServiceTests
                     Value = new OidcApiAuthorizationSettings()
                     {
                         Audience = "AudienceForTest",
+                        ValidationPath = ".well-known/jwks.json",
                         IssuerUrl = "https://issuerUrl.for.test/"
                     }
                 };

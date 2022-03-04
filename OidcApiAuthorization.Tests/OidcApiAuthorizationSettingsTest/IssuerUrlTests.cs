@@ -6,7 +6,7 @@ namespace OidcApiAuthorizationSettingsTest
     public class IssuerUrlTests
     {
         [Fact]
-        public void Appends_missing_foward_slash()
+        public void Appends_without_foward_slash()
         {
             const string WithoutEndingSlash = "https://my.test.url";
             const string WithEndingSlash = "https://my.test.url/";
@@ -16,7 +16,8 @@ namespace OidcApiAuthorizationSettingsTest
                 IssuerUrl = WithoutEndingSlash
             };
 
-            Assert.Equal(WithEndingSlash, settings.IssuerUrl);
+            Assert.NotEqual(WithEndingSlash, settings.IssuerUrl);
+            Assert.Equal(WithoutEndingSlash, settings.IssuerUrl);
         }
 
         [Fact]

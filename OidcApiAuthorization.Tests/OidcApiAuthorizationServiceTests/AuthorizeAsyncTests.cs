@@ -16,6 +16,7 @@ namespace OidcApiAuthorizationServiceTests
         public async Task Retrys_once_if_SecurityTokenSignatureKeyNotFoundException()
         {
             const string AudienceForTest = "AudienceForTest";
+            const string ValidationPathForTest = ".well-known/jkws.json";
             const string IssuerUrlForTest = "https://issuerUrl.for.test/";
             const string ExtractedTokenForTest = "ExtractedTokenForTest";
 
@@ -25,6 +26,7 @@ namespace OidcApiAuthorizationServiceTests
                     Value = new OidcApiAuthorizationSettings()
                     {
                         Audience = AudienceForTest,
+                        ValidationPath = ValidationPathForTest,
                         IssuerUrl = IssuerUrlForTest
                     }
                 };
@@ -66,6 +68,7 @@ namespace OidcApiAuthorizationServiceTests
         public async Task Returns_failure_if_SecurityTokenSignatureKeyNotFoundException_on_retry()
         {
             const string AudienceForTest = "AudienceForTest";
+            const string ValidationPathForTest = ".well-known/jkws.json";
             const string IssuerUrlForTest = "https://issuerUrl.for.test/";
             const string ExtractedTokenForTest = "ExtractedTokenForTest";
 
@@ -75,6 +78,7 @@ namespace OidcApiAuthorizationServiceTests
                     Value = new OidcApiAuthorizationSettings()
                     {
                         Audience = AudienceForTest,
+                        ValidationPath = ValidationPathForTest,
                         IssuerUrl = IssuerUrlForTest
                     }
                 };
@@ -119,6 +123,7 @@ namespace OidcApiAuthorizationServiceTests
         {
             const string AudienceForTest = "AudienceForTest";
             const string IssuerUrlForTest = "https://issuerUrl.for.test/";
+            const string ValidationPathForTest = ".well-known/jkws.json";
             const string ExtractedTokenForTest = "ExtractedTokenForTest";
 
             Exception exceptionToThrow = exceptionTypeToThrow == "SecurityTokenException"
@@ -131,6 +136,7 @@ namespace OidcApiAuthorizationServiceTests
                     Value = new OidcApiAuthorizationSettings()
                     {
                         Audience = AudienceForTest,
+                        ValidationPath = ValidationPathForTest,
                         IssuerUrl = IssuerUrlForTest
                     }
                 };
@@ -173,6 +179,7 @@ namespace OidcApiAuthorizationServiceTests
         public async Task Returns_failure_if_bad_Aurthorization_header()
         {
             const string AudienceForTest = "AudienceForTest";
+            const string ValidationPathForTest = ".well-known/jkws.json";
             const string IssuerUrlForTest = "https://issuerUrl.for.test/";
 
             var fakeApiAuthorizationSettingsOptions
@@ -181,6 +188,7 @@ namespace OidcApiAuthorizationServiceTests
                     Value = new OidcApiAuthorizationSettings()
                     {
                         Audience = AudienceForTest,
+                        ValidationPath = ValidationPathForTest,
                         IssuerUrl = IssuerUrlForTest
                     }
                 };
@@ -211,6 +219,7 @@ namespace OidcApiAuthorizationServiceTests
         {
             const string AudienceForTest = "AudienceForTest";
             const string IssuerUrlForTest = "https://issuerUrl.for.test/";
+            const string ValidationPathForTest = ".well-known/jkws.json";
             const string ExtractedTokenForTest = "ExtractedTokenForTest";
             const string ExceptionMessageForTest = "ExceptionMessageForTest";
 
@@ -220,6 +229,7 @@ namespace OidcApiAuthorizationServiceTests
                     Value = new OidcApiAuthorizationSettings()
                     {
                         Audience = AudienceForTest,
+                        ValidationPath = ValidationPathForTest,
                         IssuerUrl = IssuerUrlForTest
                     }
                 };
@@ -257,6 +267,7 @@ namespace OidcApiAuthorizationServiceTests
         {
             const string AudienceForTest = "AudienceForTest";
             const string IssuerUrlForTest = "https://issuerUrl.for.test/";
+            const string ValidationPathForTest = ".well-known/jkws.json";
             const string ExtractedTokenForTest = "ExtractedTokenForTest";
 
             var fakeApiAuthorizationSettingsOptions
@@ -265,6 +276,7 @@ namespace OidcApiAuthorizationServiceTests
                     Value = new OidcApiAuthorizationSettings()
                     {
                         Audience = AudienceForTest,
+                        ValidationPath = ValidationPathForTest,
                         IssuerUrl = IssuerUrlForTest
                     }
                 };

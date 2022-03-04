@@ -21,6 +21,7 @@ namespace OidcApiAuthorization
         private readonly IOidcConfigurationManager _oidcConfigurationManager;
 
         private readonly string _issuerUrl = null;
+        private readonly string _validationPath = null;
         private readonly string _audience = null;
 
         public OidcApiAuthorizationService(
@@ -30,6 +31,7 @@ namespace OidcApiAuthorization
             IOidcConfigurationManager oidcConfigurationManager)
         {
             _issuerUrl = apiAuthorizationSettingsOptions?.Value?.IssuerUrl;
+            _validationPath = apiAuthorizationSettingsOptions?.Value?.ValidationPath;
             _audience = apiAuthorizationSettingsOptions?.Value?.Audience;
 
             _authorizationHeaderBearerTokenExractor = authorizationHeaderBearerTokenExractor;
@@ -75,6 +77,7 @@ namespace OidcApiAuthorization
                     // (issuer) cached and returned.
                     // This method will throw if the configuration cannot be retrieved, instead of returning null.
                     isserSigningKeys = await _oidcConfigurationManager.GetIssuerSigningKeysAsync();
+                    //if (isserSigningKeys.IsNullOrEmpty() || isserSigningKeys === 0)
                 }
                 catch (Exception ex)
                 {
@@ -95,7 +98,7 @@ namespace OidcApiAuthorization
                         ValidIssuer = _issuerUrl,
                         ValidateIssuer = true,
                         ValidateIssuerSigningKey = true,
-                        ValidateLifetime = true,
+                        ValidateLifetime = false,
                         IssuerSigningKeys = isserSigningKeys
                     };
 
@@ -157,7 +160,7 @@ namespace OidcApiAuthorization
         public async Task<HealthCheckResult> HealthCheckAsync()
         {
             if (string.IsNullOrWhiteSpace(_audience)
-                || string.IsNullOrWhiteSpace(_issuerUrl))
+                || string.IsNullOrWhiteSpace(_issuerUrl) || string.IsNullOrWhiteSpace(_validationPath))
             {
                 return new HealthCheckResult(
                     $"Some or all {nameof(OidcApiAuthorizationSettings)} are missing.");
@@ -167,8 +170,10 @@ namespace OidcApiAuthorization
             {
                 // Get the singing keys fresh. Not from the cache.
                 _oidcConfigurationManager.RequestRefresh();
-
-                await _oidcConfigurationManager.GetIssuerSigningKeysAsync();
+                var keys = await _oidcConfigurationManager.GetIssuerSigningKeysAsync();
+                if (keys != null) {
+                    throw new Exception("No keys returned from Issuer");
+                }
             }
             catch (Exception ex)
             {
