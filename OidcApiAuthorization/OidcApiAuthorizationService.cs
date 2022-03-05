@@ -98,7 +98,7 @@ namespace OidcApiAuthorization
                         ValidIssuer = _issuerUrl,
                         ValidateIssuer = true,
                         ValidateIssuerSigningKey = true,
-                        ValidateLifetime = false,
+                        ValidateLifetime = true,
                         IssuerSigningKeys = isserSigningKeys
                     };
 

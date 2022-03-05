@@ -26,7 +26,7 @@ namespace OidcApiAuthorization
 
             services.AddSingleton<IAuthorizationHeaderBearerTokenExtractor, AuthorizationHeaderBearerTokenExtractor>();
             services.AddSingleton<IJwtSecurityTokenHandlerWrapper, JwtSecurityTokenHandlerWrapper>();
-            services.AddSingleton<IOidcConfigurationManager, OidcConfigurationManager>();
+            services.AddSingleton<IOidcConfigurationManager, CustomJWKSOidcConfigurationManager>();
 
             services.AddSingleton<IApiAuthorization, OidcApiAuthorizationService>();
         }
