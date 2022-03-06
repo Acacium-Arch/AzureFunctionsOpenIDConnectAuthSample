@@ -170,10 +170,7 @@ namespace OidcApiAuthorization
             {
                 // Get the singing keys fresh. Not from the cache.
                 _oidcConfigurationManager.RequestRefresh();
-                var keys = await _oidcConfigurationManager.GetIssuerSigningKeysAsync();
-                if (keys != null) {
-                    throw new Exception("No keys returned from Issuer");
-                }
+                await _oidcConfigurationManager.GetIssuerSigningKeysAsync();
             }
             catch (Exception ex)
             {
