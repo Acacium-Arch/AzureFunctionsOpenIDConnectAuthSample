@@ -119,6 +119,8 @@ namespace OidcApiAuthorization
                         // changed the signing keys since the last time they were retrieved by the
                         // ConfigurationManager.
 
+                        _oidcConfigurationManager.RequestRefresh();
+
                         if (validationRetryCount == 0)
                         {
                             // To handle the SecurityTokenSignatureKeyNotFoundException we ask the
@@ -126,7 +128,6 @@ namespace OidcApiAuthorization
                             // the next time we ask for them.
                             // Then we retry by asking for the signing keys and validating the token again.
                             // We only retry once.
-                            _oidcConfigurationManager.RequestRefresh();
 
                             validationRetryCount++;
                             
@@ -137,13 +138,14 @@ namespace OidcApiAuthorization
                             // Authorization failed, after retry.
                             // We've already re-tried after the first SecurityTokenSignatureKeyNotFoundException,
                             // and we caught the exception again.
+
                             apiAuthorizationResult = new ApiAuthorizationResult(
                                 $"Authorization Failed. {ex.GetType()} caught while validating JWT token."
-                                    + $"Message: {ex.Message}"
-                                    + $"Issuer: {_issuerUrl}"
-                                    + $"Issuer: {_audience}"
-                                    + $"Issuer: {_validationPath}"
-                                    + $"Issuer: {isserSigningKeys == null}"
+                                    + $"; Message: {ex.Message}"
+                                    + $"; Issuer: {_issuerUrl}"
+                                    + $"; Audience: {_audience}"
+                                    + $"; Validation Path: {_validationPath}"
+                                    + $"; Keys exist: {isserSigningKeys != null}"
                                     );
                         }
                     }
@@ -152,13 +154,16 @@ namespace OidcApiAuthorization
                         // The authorization fails if any Exception is thrown,
                         // not just SecurityTokenException.
 
+                        // Reset the singing keys fresh for next request.
+                        _oidcConfigurationManager.RequestRefresh();
+
                         apiAuthorizationResult = new ApiAuthorizationResult(
                             $"Authorization Failed. {ex.GetType()} caught while validating JWT token."
-                            + $"Message: {ex.Message}"
-                            + $"Issuer: {_issuerUrl}"
-                            + $"Issuer: {_audience}"
-                            + $"Issuer: {_validationPath}"
-                            + $"Issuer: {isserSigningKeys == null}"
+                            + $"; Message: {ex.Message}"
+                            + $"; Issuer: {_issuerUrl}"
+                            + $"; Audience: {_audience}"
+                            + $"; Validation Path: {_validationPath}"
+                            + $"; Keys exist: {isserSigningKeys != null}"
                             );
                     }
                 }
