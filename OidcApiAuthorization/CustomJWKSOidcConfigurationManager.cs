@@ -76,12 +76,20 @@ namespace OidcApiAuthorization
                 {
                     var e = Base64UrlEncoder.DecodeBytes(k.e);
                     var n = Base64UrlEncoder.DecodeBytes(k.n);
-                    var key = new RsaSecurityKey(new RSAParameters { Exponent = e, Modulus = n })
+                    /*var key = new RsaSecurityKey(new RSAParameters { Exponent = e, Modulus = n })
                     {
                         KeyId = k.kid
                     };
 
-                    keys.Add(key);
+                    keys.Add(key);*/
+                    var rsa = new RSACryptoServiceProvider();
+                    rsa.ImportParameters(
+                        new RSAParameters()
+                    {
+                        Modulus = n,
+                        Exponent = e
+                    });
+                    keys.Add(new RsaSecurityKey(rsa));
                 }
 
                 return keys;
