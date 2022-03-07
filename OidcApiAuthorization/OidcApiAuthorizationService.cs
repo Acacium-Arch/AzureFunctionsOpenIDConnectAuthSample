@@ -97,7 +97,7 @@ namespace OidcApiAuthorization
                         ValidateAudience = true,
                         ValidIssuer = _issuerUrl,
                         ValidateIssuer = true,
-                        ValidateIssuerSigningKey = true,
+                        ValidateIssuerSigningKey = false,
                         ValidateLifetime = true,
                         IssuerSigningKeys = isserSigningKeys
                     };
@@ -140,7 +140,7 @@ namespace OidcApiAuthorization
                             // and we caught the exception again.
 
                             apiAuthorizationResult = new ApiAuthorizationResult(
-                                $"Authorization Failed. {ex.GetType()} caught while validating JWT token."
+                                $"Authorization Failed. {ex.GetType()} caught while validating JWT token, after retry."
                                     + $"; Message: {ex.Message}"
                                     + $"; Issuer: {_issuerUrl}"
                                     + $"; Audience: {_audience}"

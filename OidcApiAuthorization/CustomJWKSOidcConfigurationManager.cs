@@ -8,6 +8,8 @@ using Microsoft.IdentityModel.Tokens;
 using OidcApiAuthorization.Abstractions;
 using OidcApiAuthorization.Models;
 using System.Security.Cryptography;
+using System.Linq;
+using System.Text.Json;
 
 namespace OidcApiAuthorization
 {
@@ -67,8 +69,9 @@ namespace OidcApiAuthorization
             {
                 // we need to do some work here to extract the keys from the jwks endpoint and
                 // place into a SecurityKey array
+
                 var keys = new List<SecurityKey>();
-                var json = Newtonsoft.Json.JsonConvert.DeserializeObject<List<JwksKey>>(configuration.AdditionalData["keys"].ToString());
+                var json = JsonSerializer.Deserialize<List<JwksKey>>(configuration.AdditionalData["keys"].ToString());
                 foreach (var k in json)
                 {
                     var e = Base64UrlEncoder.DecodeBytes(k.e);
