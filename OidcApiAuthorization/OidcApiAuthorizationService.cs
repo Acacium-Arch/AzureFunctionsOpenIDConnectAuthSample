@@ -138,8 +138,13 @@ namespace OidcApiAuthorization
                             // We've already re-tried after the first SecurityTokenSignatureKeyNotFoundException,
                             // and we caught the exception again.
                             apiAuthorizationResult = new ApiAuthorizationResult(
-                                $"Authorization Failed. {ex.GetType()} caught while validating JWT token, after retry."
-                                + $"Message: {ex.Message}");
+                                $"Authorization Failed. {ex.GetType()} caught while validating JWT token."
+                                    + $"Message: {ex.Message}"
+                                    + $"Issuer: {_issuerUrl}"
+                                    + $"Issuer: {_audience}"
+                                    + $"Issuer: {_validationPath}"
+                                    + $"Issuer: {isserSigningKeys == null}"
+                                    );
                         }
                     }
                     catch (Exception ex)
@@ -149,7 +154,12 @@ namespace OidcApiAuthorization
 
                         apiAuthorizationResult = new ApiAuthorizationResult(
                             $"Authorization Failed. {ex.GetType()} caught while validating JWT token."
-                            + $"Message: {ex.Message}");
+                            + $"Message: {ex.Message}"
+                            + $"Issuer: {_issuerUrl}"
+                            + $"Issuer: {_audience}"
+                            + $"Issuer: {_validationPath}"
+                            + $"Issuer: {isserSigningKeys == null}"
+                            );
                     }
                 }
             }
