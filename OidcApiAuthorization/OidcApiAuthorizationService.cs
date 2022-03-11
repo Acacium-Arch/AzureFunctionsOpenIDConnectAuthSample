@@ -117,9 +117,7 @@ namespace OidcApiAuthorization
                         // A SecurityTokenSignatureKeyNotFoundException is thrown if the signing keys for
                         // validating the JWT could not be found. This could happen if the issuer has
                         // changed the signing keys since the last time they were retrieved by the
-                        // ConfigurationManager.
-
-                        _oidcConfigurationManager.RequestRefresh();
+                        // ConfigurationManager.                       
 
                         if (validationRetryCount == 0)
                         {
@@ -128,6 +126,7 @@ namespace OidcApiAuthorization
                             // the next time we ask for them.
                             // Then we retry by asking for the signing keys and validating the token again.
                             // We only retry once.
+                            _oidcConfigurationManager.RequestRefresh();
 
                             validationRetryCount++;
                             
